@@ -1,0 +1,11 @@
+node_modules/
+server/.env
+server/uploads/
+client/.env
+.env
+.env.*
+!.env.example
+!client/.env.example
+dist/
+*.log
+nul
