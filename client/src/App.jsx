@@ -6,6 +6,8 @@ import DestinationsPage from "./app/pages/DestinationsPage.jsx";
 import DestinationDetailPage from "./app/pages/DestinationDetailPage.jsx";
 import BookingPage from "./app/pages/BookingPage.jsx";
 import MyBookingsPage from "./app/pages/MyBookingsPage.jsx";
+import ProfilePage from "./app/pages/ProfilePage.jsx";
+import DashboardPage from "./app/pages/DashboardPage.jsx";
 import LoginPage from "./app/pages/LoginPage.jsx";
 import RegisterPage from "./app/pages/RegisterPage.jsx";
 import NotFoundPage from "./app/pages/NotFoundPage.jsx";
@@ -15,14 +17,16 @@ export default function App() {
     <AuthProvider>
       <BrowserRouter>
         <Routes>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
           <Route element={<Layout />}>
             <Route path="/" element={<HomePage />} />
             <Route path="/destinations" element={<DestinationsPage />} />
             <Route path="/destinations/:id" element={<DestinationDetailPage />} />
             <Route path="/book/:id" element={<BookingPage />} />
             <Route path="/my-bookings" element={<MyBookingsPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>

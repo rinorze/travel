@@ -41,7 +41,7 @@ export default function LoginPage() {
           >
             <Compass className="w-7 h-7 text-blue-600" />
             <span className="text-xl font-semibold tracking-tight">
-              Voyager
+              Travel
             </span>
           </Link>
           <h1 className="text-2xl font-bold text-gray-900 mt-4 mb-1">

@@ -174,7 +174,7 @@ export default function HomePage() {
             Ready to start your journey?
           </h2>
           <p className="text-gray-400 mb-8 max-w-md mx-auto">
-            Join thousands of travelers who book their dream trips with Voyager.
+            Join thousands of travelers who book their dream trips with Travel.
           </p>
           <Link
             to="/register"

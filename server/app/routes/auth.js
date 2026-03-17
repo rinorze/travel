@@ -1,6 +1,11 @@
 import { Router } from "express";
 import { body } from "express-validator";
-import { register, login, getMe } from "../controllers/authController.js";
+import {
+  register,
+  login,
+  getMe,
+  updateProfile,
+} from "../controllers/authController.js";
 import { authenticate } from "../middleware/auth.js";
 
 const router = Router();
@@ -22,5 +27,16 @@ router.post(
 );
 
 router.get("/me", authenticate, getMe);
+
+router.patch(
+  "/profile",
+  authenticate,
+  [
+    body("name").optional().trim().isLength({ min: 2, max: 60 }),
+    body("currentPassword").optional().isLength({ min: 6 }),
+    body("newPassword").optional().isLength({ min: 6 }),
+  ],
+  updateProfile,
+);
 
 export default router;

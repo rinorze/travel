@@ -56,9 +56,17 @@ export const listBookings = async (req, res) => {
   if (!ensureDatabaseConnected(res)) return;
 
   try {
-    const bookings = await Booking.find({ user: req.user._id })
-      .sort({ createdAt: -1 })
-      .limit(50);
+    const isAdmin = req.user?.role === "admin";
+    const scope = req.query.scope;
+    const shouldShowAll = isAdmin && scope === "all";
+    const filter = shouldShowAll ? {} : { user: req.user._id };
+
+    let query = Booking.find(filter).sort({ createdAt: -1 }).limit(50);
+    if (shouldShowAll) {
+      query = query.populate("user", "name email role");
+    }
+
+    const bookings = await query;
 
     return res.json({ bookings });
   } catch (error) {

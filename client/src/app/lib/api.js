@@ -18,7 +18,14 @@ const parseResponse = async (response) => {
     throw new Error("Server error. Please try again later.");
   }
   if (!response.ok) {
-    throw new Error(data.message || "Request failed.");
+    const firstValidationError =
+      Array.isArray(data.errors) && data.errors.length > 0
+        ? data.errors[0]?.msg
+        : null;
+    const message = data.message || "Request failed.";
+    throw new Error(
+      firstValidationError ? `${message} ${firstValidationError}` : message,
+    );
   }
   return data;
 };
@@ -49,6 +56,15 @@ export const getMe = async () => {
   return parseResponse(response);
 };
 
+export const updateProfile = async (payload) => {
+  const response = await fetch(`${API_URL}/auth/profile`, {
+    method: "PATCH",
+    headers: getHeaders(),
+    body: JSON.stringify(payload),
+  });
+  return parseResponse(response);
+};
+
 // Destinations
 export const listDestinations = async (params = {}) => {
   const query = new URLSearchParams(params).toString();
@@ -68,9 +84,38 @@ export const seedDestinations = async () => {
   return parseResponse(response);
 };
 
+// Admin Destinations
+export const createDestinationAdmin = async (payload) => {
+  const response = await fetch(`${API_URL}/destinations`, {
+    method: "POST",
+    headers: getHeaders(),
+    body: JSON.stringify(payload),
+  });
+  return parseResponse(response);
+};
+
+export const updateDestinationAdmin = async (id, payload) => {
+  const response = await fetch(`${API_URL}/destinations/${id}`, {
+    method: "PUT",
+    headers: getHeaders(),
+    body: JSON.stringify(payload),
+  });
+  return parseResponse(response);
+};
+
+export const deleteDestinationAdmin = async (id) => {
+  const response = await fetch(`${API_URL}/destinations/${id}`, {
+    method: "DELETE",
+    headers: getHeaders(),
+  });
+  return parseResponse(response);
+};
+
 // Bookings
-export const listBookings = async () => {
-  const response = await fetch(`${API_URL}/bookings`, {
+export const listBookings = async (params = {}) => {
+  const query = new URLSearchParams(params).toString();
+  const suffix = query ? `?${query}` : "";
+  const response = await fetch(`${API_URL}/bookings${suffix}`, {
     headers: getHeaders(),
   });
   return parseResponse(response);

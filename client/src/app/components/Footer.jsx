@@ -11,7 +11,7 @@ export default function Footer() {
             <Link to="/" className="flex items-center gap-2 text-gray-900 mb-3">
               <Compass className="w-5 h-5 text-blue-600" />
               <span className="text-lg font-semibold tracking-tight">
-                VoyagerTravel
+                Travel
               </span>
             </Link>
             <p className="text-sm text-gray-500 max-w-sm leading-relaxed">
@@ -86,10 +86,6 @@ export default function Footer() {
         <div className="mt-10 pt-6 border-t border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-xs text-gray-400">
             &copy; {new Date().getFullYear()} Travel. All rights reserved.
-          </p>
-          <p className="flex items-center gap-1 text-xs text-gray-400">
-            Made with <Heart className="w-3 h-3 text-red-400 fill-red-400" />{" "}
-            for travelers
           </p>
         </div>
       </div>

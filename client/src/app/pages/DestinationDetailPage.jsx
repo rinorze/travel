@@ -33,9 +33,7 @@ export default function DestinationDetailPage() {
         return listDestinations({ category: data.destination.category });
       })
       .then((data) => {
-        setRelated(
-          data.destinations.filter((d) => d._id !== id).slice(0, 3),
-        );
+        setRelated(data.destinations.filter((d) => d._id !== id).slice(0, 3));
       })
       .catch((err) => {
         setError(err.message);
@@ -59,7 +57,9 @@ export default function DestinationDetailPage() {
           <h2 className="text-xl font-bold text-gray-900 mb-2">
             Destination not found
           </h2>
-          <p className="text-gray-500 mb-6">{error || "This destination doesn't exist or has been removed."}</p>
+          <p className="text-gray-500 mb-6">
+            {error || "This destination doesn't exist or has been removed."}
+          </p>
           <Link
             to="/destinations"
             className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-xl transition-colors"
@@ -110,7 +110,7 @@ export default function DestinationDetailPage() {
         <img
           src={destination.image}
           alt={destination.name}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover object-center"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
 
@@ -193,7 +193,8 @@ export default function DestinationDetailPage() {
             <ul className="space-y-2 text-gray-600 text-sm leading-relaxed mb-8">
               <li className="flex items-start gap-2">
                 <Calendar className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" />
-                Flexible booking dates with free cancellation up to 24 hours before departure
+                Flexible booking dates with free cancellation up to 24 hours
+                before departure
               </li>
               <li className="flex items-start gap-2">
                 <Users className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" />
