@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, createElement } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
-  LayoutDashboard,
   MapPin,
   CalendarCheck,
   Plus,
@@ -42,6 +41,15 @@ const emptyForm = {
   featured: false,
 };
 
+function getActiveTab(search, isAdmin) {
+  const tab = new URLSearchParams(search).get("tab");
+  if (tab === "profile") return "profile";
+  if (tab === "bookings") return "bookings";
+  if (tab === "overview") return "overview";
+  if (tab === "destinations" && isAdmin) return "destinations";
+  return isAdmin ? "destinations" : "overview";
+}
+
 export default function DashboardPage() {
   const { user, isAdmin, updateUser } = useAuth();
   const location = useLocation();
@@ -49,15 +57,7 @@ export default function DashboardPage() {
   const [destinations, setDestinations] = useState([]);
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
-  const getInitialTab = () => {
-    const tab = new URLSearchParams(location.search).get("tab");
-    if (tab === "profile") return "profile";
-    if (tab === "bookings") return "bookings";
-    if (tab === "overview") return "overview";
-    if (tab === "destinations" && isAdmin) return "destinations";
-    return isAdmin ? "destinations" : "overview";
-  };
-  const [activeTab, setActiveTab] = useState(getInitialTab);
+  const activeTab = getActiveTab(location.search, isAdmin);
 
   // Modal state
   const [showModal, setShowModal] = useState(false);
@@ -106,19 +106,9 @@ export default function DashboardPage() {
     setNameForm({ name: user?.name || "" });
   }, [user?._id, user?.name]);
 
-  useEffect(() => {
-    // Allow deep-linking to a tab via ?tab=...
-    const tab = new URLSearchParams(location.search).get("tab");
-    if (!tab) return;
-    if (tab === "profile") setActiveTab("profile");
-    if (tab === "bookings") setActiveTab("bookings");
-    if (tab === "overview") setActiveTab("overview");
-    if (tab === "destinations" && isAdmin) setActiveTab("destinations");
-  }, [location.search, isAdmin]);
-
   if (!user) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="flex items-center justify-center py-16">
         <div className="text-center">
           <p className="text-gray-500 mb-4">
             Please log in to access the dashboard.
@@ -261,21 +251,20 @@ export default function DashboardPage() {
     }
   };
 
-  const tabs = [];
-  tabs.push({ key: "overview", label: "Overview", icon: LayoutDashboard });
-  if (isAdmin) {
-    tabs.push({ key: "destinations", label: "Destinations", icon: MapPin });
-  }
-  tabs.push({ key: "bookings", label: "Bookings", icon: CalendarCheck });
-  tabs.push({ key: "profile", label: "Profile", icon: UserCircle });
-
   return (
-    <div className="min-h-screen bg-gray-50/50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+            <h1 className="text-2xl font-bold text-gray-900">
+              {activeTab === "destinations"
+                ? "Destinations"
+                : activeTab === "bookings"
+                  ? "Bookings"
+                  : activeTab === "profile"
+                    ? "Profile"
+                    : "Overview"}
+            </h1>
             <p className="text-sm text-gray-500 mt-1">
               {isAdmin ? "Manage your platform" : "Your travel overview"}
             </p>
@@ -295,24 +284,6 @@ export default function DashboardPage() {
             {success}
           </div>
         )}
-
-        {/* Tabs */}
-        <div className="flex items-center gap-1 mb-8 border-b border-gray-200 overflow-x-auto">
-          {tabs.map((tab) => (
-            <button
-              key={tab.key}
-              onClick={() => setActiveTab(tab.key)}
-              className={`flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 -mb-px whitespace-nowrap transition-colors cursor-pointer ${
-                activeTab === tab.key
-                  ? "text-blue-600 border-blue-600"
-                  : "text-gray-500 border-transparent hover:text-gray-700"
-              }`}
-            >
-              <tab.icon className="w-4 h-4" />
-              {tab.label}
-            </button>
-          ))}
-        </div>
 
         {loading ? (
           <div className="flex items-center justify-center py-20">
@@ -770,7 +741,6 @@ export default function DashboardPage() {
             )}
           </>
         )}
-      </div>
 
       {/* Create/Edit Modal */}
       {showModal && (
@@ -979,7 +949,7 @@ function StatCard({ icon: Icon, label, value, color }) {
       <div
         className={`w-9 h-9 rounded-lg ${colors[color]} flex items-center justify-center mb-3`}
       >
-        <Icon className="w-4.5 h-4.5" />
+        {createElement(Icon, { className: "w-4.5 h-4.5" })}
       </div>
       <div className="text-2xl font-bold text-gray-900">{value}</div>
       <div className="text-xs text-gray-500 mt-0.5">{label}</div>

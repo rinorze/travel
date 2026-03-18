@@ -1,4 +1,4 @@
-import { Star, MapPin } from "lucide-react";
+import { Star, MapPin, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function DestinationCard({ destination }) {
@@ -11,15 +11,12 @@ export default function DestinationCard({ destination }) {
   };
 
   return (
-    <Link
-      to={`/destinations/${destination._id}`}
-      className="group block bg-white rounded-2xl overflow-hidden border border-gray-100 hover:border-gray-200 hover:shadow-lg transition-all duration-300"
-    >
+    <div className="bg-white rounded-2xl overflow-hidden border border-gray-100 hover:border-gray-200 hover:shadow-sm cursor-pointer transition-all duration-300">
       <div className="relative aspect-[4/3] overflow-hidden">
         <img
           src={destination.image}
           alt={destination.name}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
         />
         <div className="absolute top-3 left-3">
           <span
@@ -40,7 +37,7 @@ export default function DestinationCard({ destination }) {
 
       <div className="p-4">
         <div className="flex items-start justify-between gap-2 mb-1.5">
-          <h3 className="text-base font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
+          <h3 className="text-base font-semibold text-gray-900">
             {destination.name}
           </h3>
         </div>
@@ -58,11 +55,14 @@ export default function DestinationCard({ destination }) {
             </span>
             <span className="text-xs text-gray-400 ml-1">/ person</span>
           </div>
-          <span className="text-xs font-medium text-blue-600 group-hover:translate-x-0.5 transition-transform">
-            View details &rarr;
-          </span>
+          <Link
+            to={`/destinations/${destination._id}`}
+            className="flex items-center gap-2 text-xs font-medium bg-gray-900 text-white transition-transform px-3 py-2 rounded hover:bg-gray-800"
+          >
+            View details <ChevronRight className="w-3.5 h-3.5" />
+          </Link>
         </div>
       </div>
-    </Link>
+    </div>
   );
 }
