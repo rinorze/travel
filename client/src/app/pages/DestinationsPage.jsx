@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Search, SlidersHorizontal, X } from "lucide-react";
+import { Search, X } from "lucide-react";
 import { listDestinations } from "../lib/api.js";
 import DestinationCard from "../components/DestinationCard.jsx";
 
@@ -24,7 +24,6 @@ export default function DestinationsPage() {
   );
   const debounceTimer = useRef(null);
 
-  // Debounce search input
   useEffect(() => {
     debounceTimer.current = setTimeout(() => {
       setDebouncedSearch(search);
@@ -32,7 +31,6 @@ export default function DestinationsPage() {
     return () => clearTimeout(debounceTimer.current);
   }, [search]);
 
-  // Fetch destinations when debounced search or category changes
   useEffect(() => {
     const load = async () => {
       setLoading(true);
@@ -70,26 +68,28 @@ export default function DestinationsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50/50">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+    <div className="min-h-screen bg-[#f7f4ef]">
+      <div className="border-b border-[#ded7cc] bg-[#fffdf9]">
+        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-[#4d6554]">
+            Browse
+          </p>
+          <h1 className="mb-3 text-3xl font-semibold tracking-tight text-[#1f2933]">
             Destinations
           </h1>
-          <p className="text-gray-500 mb-6">
-            Explore our collection of handpicked travel destinations
+          <p className="mb-6 max-w-2xl text-sm leading-6 text-[#6f6a61]">
+            Search by place or narrow the list by travel style. The results stay
+            plain on purpose: image, location, price, and rating.
           </p>
 
-          {/* Search */}
-          <div className="relative max-w-md">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+          <div className="relative w-full max-w-xl">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#8f958b]" />
             <input
               type="text"
               value={search}
               onChange={handleSearch}
-              placeholder="Search destinations..."
-              className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-300 transition-all"
+              placeholder="Search destinations"
+              className="field pl-10 pr-10"
             />
             {search && (
               <button
@@ -100,27 +100,25 @@ export default function DestinationsPage() {
                     params.category = activeCategory;
                   setSearchParams(params);
                 }}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 cursor-pointer"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8f958b] hover:text-[#1f2933] cursor-pointer"
               >
-                <X className="w-4 h-4" />
+                <X className="h-4 w-4" />
               </button>
             )}
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Categories */}
-        <div className="flex items-center gap-2 mb-8 overflow-x-auto pb-2">
-          <SlidersHorizontal className="w-4 h-4 text-gray-400 flex-shrink-0" />
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="mb-8 flex items-center gap-2 overflow-x-auto pb-2">
           {categories.map((cat) => (
             <button
               key={cat.value}
               onClick={() => handleCategoryChange(cat.value)}
-              className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors cursor-pointer ${
+              className={`rounded-lg border px-4 py-2 text-sm font-semibold whitespace-nowrap transition-colors cursor-pointer ${
                 activeCategory === cat.value
-                  ? "bg-blue-600 text-white"
-                  : "bg-white text-gray-600 hover:bg-gray-100 border border-gray-200"
+                  ? "border-[#1f2933] bg-[#1f2933] text-[#fffdf9]"
+                  : "border-[#ded7cc] bg-[#fffdf9] text-[#5f665d] hover:border-[#9c9488]"
               }`}
             >
               {cat.label}
@@ -128,34 +126,33 @@ export default function DestinationsPage() {
           ))}
         </div>
 
-        {/* Results */}
         {loading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {[...Array(6)].map((_, i) => (
               <div key={i} className="animate-pulse">
-                <div className="aspect-[4/3] bg-gray-200 rounded-2xl mb-4" />
-                <div className="h-4 bg-gray-200 rounded w-3/4 mb-2" />
-                <div className="h-3 bg-gray-200 rounded w-1/2" />
+                <div className="mb-4 aspect-[4/3] rounded-lg bg-[#e5ded2]" />
+                <div className="mb-2 h-4 w-3/4 rounded bg-[#e5ded2]" />
+                <div className="h-3 w-1/2 rounded bg-[#e5ded2]" />
               </div>
             ))}
           </div>
         ) : destinations.length === 0 ? (
           <div className="text-center py-20">
             <MapEmptyIcon />
-            <h3 className="text-lg font-semibold text-gray-900 mt-4 mb-1">
+            <h3 className="mt-4 mb-1 text-lg font-semibold text-[#1f2933]">
               No destinations found
             </h3>
-            <p className="text-sm text-gray-500">
-              Try adjusting your search or filter criteria
+            <p className="text-sm text-[#6f6a61]">
+              Try a different search or filter.
             </p>
           </div>
         ) : (
           <>
-            <p className="text-sm text-gray-400 mb-4">
+            <p className="mb-4 text-sm text-[#6f6a61]">
               {destinations.length} destination
               {destinations.length !== 1 ? "s" : ""} found
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {destinations.map((dest) => (
                 <DestinationCard key={dest._id} destination={dest} />
               ))}
@@ -169,8 +166,8 @@ export default function DestinationsPage() {
 
 function MapEmptyIcon() {
   return (
-    <div className="w-16 h-16 mx-auto bg-gray-100 rounded-full flex items-center justify-center">
-      <Search className="w-7 h-7 text-gray-300" />
+    <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#ebe5d9]">
+      <Search className="h-7 w-7 text-[#8f958b]" />
     </div>
   );
 }

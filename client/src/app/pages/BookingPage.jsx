@@ -84,17 +84,17 @@ export default function BookingPage() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-6 h-6 text-blue-600 animate-spin" />
+        <Loader2 className="w-6 h-6 text-[#4d6554] animate-spin" />
       </div>
     );
   }
 
   if (success) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50/50 px-4">
+      <div className="min-h-screen flex items-center justify-center bg-[#f7f4ef] px-4">
         <div className="max-w-md w-full text-center">
-          <div className="w-16 h-16 mx-auto bg-green-50 rounded-full flex items-center justify-center mb-4">
-            <CheckCircle className="w-8 h-8 text-green-500" />
+          <div className="w-16 h-16 mx-auto bg-[#dfe8d7] rounded-full flex items-center justify-center mb-4">
+            <CheckCircle className="w-8 h-8 text-[#4d6554]" />
           </div>
           <h2 className="text-2xl font-bold text-gray-900 mb-2">
             Booking Confirmed!
@@ -109,13 +109,13 @@ export default function BookingPage() {
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
               to="/my-bookings"
-              className="inline-flex items-center justify-center px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-xl transition-colors"
+              className="button-primary"
             >
               View My Bookings
             </Link>
             <Link
               to="/destinations"
-              className="inline-flex items-center justify-center px-5 py-2.5 bg-white hover:bg-gray-50 text-gray-700 text-sm font-medium rounded-xl border border-gray-200 transition-colors"
+              className="button-secondary"
             >
               Explore More
             </Link>
@@ -126,11 +126,11 @@ export default function BookingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50/50">
+    <div className="min-h-screen bg-[#f7f4ef]">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <button
           onClick={() => navigate(-1)}
-          className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-700 mb-6 transition-colors cursor-pointer"
+          className="inline-flex items-center gap-1.5 text-sm text-[#6f6a61] hover:text-[#1f2933] mb-6 transition-colors cursor-pointer"
         >
           <ArrowLeft className="w-4 h-4" />
           Back
@@ -140,35 +140,35 @@ export default function BookingPage() {
           {/* Destination Info */}
           {destination && (
             <div className="lg:col-span-2">
-              <div className="bg-white rounded-2xl overflow-hidden border border-gray-100 sticky top-24">
+              <div className="bg-[#fffdf9] rounded-lg overflow-hidden border border-[#ded7cc] sticky top-24">
                 <img
                   src={destination.image}
                   alt={destination.name}
                   className="w-full aspect-[4/3] object-cover"
                 />
                 <div className="p-5">
-                  <h2 className="text-xl font-bold text-gray-900 mb-1">
+                  <h2 className="text-xl font-semibold text-[#1f2933] mb-1">
                     {destination.name}
                   </h2>
                   <div className="flex items-center gap-3 mb-3">
-                    <div className="flex items-center gap-1 text-gray-500">
+                    <div className="flex items-center gap-1 text-[#6f6a61]">
                       <MapPin className="w-3.5 h-3.5" />
                       <span className="text-sm">{destination.country}</span>
                     </div>
                     <div className="flex items-center gap-1">
-                      <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
-                      <span className="text-sm font-medium text-gray-700">
+                      <Star className="w-3.5 h-3.5 text-[#b36b38] fill-[#b36b38]" />
+                      <span className="text-sm font-medium text-[#1f2933]">
                         {destination.rating}
                       </span>
                     </div>
                   </div>
-                  <p className="text-sm text-gray-500 leading-relaxed">
+                  <p className="text-sm text-[#6f6a61] leading-relaxed">
                     {destination.description}
                   </p>
-                  <div className="mt-4 pt-4 border-t border-gray-100">
-                    <div className="text-2xl font-bold text-gray-900">
+                  <div className="mt-4 pt-4 border-t border-[#ebe5d9]">
+                    <div className="text-2xl font-semibold text-[#1f2933]">
                       ${destination.price.toLocaleString()}
-                      <span className="text-sm font-normal text-gray-400 ml-1">
+                      <span className="text-sm font-normal text-[#7a756b] ml-1">
                         / person
                       </span>
                     </div>
@@ -180,22 +180,22 @@ export default function BookingPage() {
 
           {/* Booking Form */}
           <div className={destination ? "lg:col-span-3" : "lg:col-span-5 max-w-2xl"}>
-            <div className="bg-white rounded-2xl border border-gray-100 p-6 sm:p-8">
-              <h2 className="text-xl font-bold text-gray-900 mb-1">
+            <div className="bg-[#fffdf9] rounded-lg border border-[#ded7cc] p-6 sm:p-8">
+              <h2 className="text-xl font-semibold text-[#1f2933] mb-1">
                 Book Your Trip
               </h2>
-              <p className="text-sm text-gray-500 mb-6">
+              <p className="text-sm text-[#6f6a61] mb-6">
                 Fill in the details below to reserve your spot
               </p>
 
               {error && (
-                <div className="mb-4 px-4 py-3 bg-red-50 border border-red-100 rounded-xl text-sm text-red-600">
+                <div className="mb-4 px-4 py-3 bg-red-50 border border-red-100 rounded-lg text-sm text-red-600">
                   {error}
                 </div>
               )}
 
               {!user && (
-                <div className="mb-6 px-4 py-3 bg-amber-50 border border-amber-100 rounded-xl text-sm text-amber-700">
+                <div className="mb-6 px-4 py-3 bg-[#fff4d7] border border-[#ead7a1] rounded-lg text-sm text-[#785d21]">
                   Please{" "}
                   <Link to="/login" className="font-medium underline">
                     log in
@@ -207,7 +207,7 @@ export default function BookingPage() {
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                    <label className="block text-sm font-medium text-[#1f2933] mb-1.5">
                       <Calendar className="w-3.5 h-3.5 inline mr-1" />
                       Start Date
                     </label>
@@ -219,11 +219,11 @@ export default function BookingPage() {
                         setForm({ ...form, startDate: e.target.value })
                       }
                       min={new Date().toISOString().split("T")[0]}
-                      className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-300 transition-all"
+                      className="field"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                    <label className="block text-sm font-medium text-[#1f2933] mb-1.5">
                       <Calendar className="w-3.5 h-3.5 inline mr-1" />
                       End Date
                     </label>
@@ -234,14 +234,14 @@ export default function BookingPage() {
                         setForm({ ...form, endDate: e.target.value })
                       }
                       min={form.startDate || new Date().toISOString().split("T")[0]}
-                      className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-300 transition-all"
+                      className="field"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                    <label className="block text-sm font-medium text-[#1f2933] mb-1.5">
                       <Users className="w-3.5 h-3.5 inline mr-1" />
                       Guests
                     </label>
@@ -250,7 +250,7 @@ export default function BookingPage() {
                       onChange={(e) =>
                         setForm({ ...form, guests: e.target.value })
                       }
-                      className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-300 transition-all"
+                      className="field"
                     >
                       {[...Array(12)].map((_, i) => (
                         <option key={i + 1} value={i + 1}>
@@ -260,7 +260,7 @@ export default function BookingPage() {
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                    <label className="block text-sm font-medium text-[#1f2933] mb-1.5">
                       <DollarSign className="w-3.5 h-3.5 inline mr-1" />
                       Budget ($)
                     </label>
@@ -273,13 +273,13 @@ export default function BookingPage() {
                         setForm({ ...form, budget: e.target.value })
                       }
                       placeholder="1000"
-                      className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-300 transition-all"
+                      className="field"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                  <label className="block text-sm font-medium text-[#1f2933] mb-1.5">
                     <FileText className="w-3.5 h-3.5 inline mr-1" />
                     Notes (optional)
                   </label>
@@ -291,14 +291,14 @@ export default function BookingPage() {
                     }
                     maxLength={600}
                     placeholder="Any special requests or preferences..."
-                    className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-300 transition-all resize-none"
+                    className="field resize-none"
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={submitting || !user}
-                  className="w-full py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white text-sm font-medium rounded-xl transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:cursor-not-allowed"
+                  className="button-primary w-full disabled:cursor-not-allowed disabled:bg-[#8f958b]"
                 >
                   {submitting ? (
                     <>

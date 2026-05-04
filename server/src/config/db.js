@@ -3,14 +3,21 @@ import { MongoMemoryServer } from "mongodb-memory-server";
 
 let memoryServer;
 
+const connectInMemoryDb = async () => {
+  memoryServer = await MongoMemoryServer.create();
+  await mongoose.connect(memoryServer.getUri(), {
+    dbName: "travel",
+  });
+  console.warn(
+    "MongoDB memory server connected (in-memory). Data will NOT persist across restarts.",
+  );
+};
+
 const connectDB = async () => {
   const mongoUri = process.env.MONGODB_URI;
   const allowInMemoryDb = process.env.ALLOW_IN_MEMORY_DB === "true";
 
   // Try connecting to the configured MongoDB URI first.
-  // Important: if a URI is configured but the connection fails, do NOT silently
-  // fall back to an in-memory DB (that would make it look like data is saved,
-  // but it disappears on restart and won't show up in the expected database).
   if (mongoUri) {
     try {
       await mongoose.connect(mongoUri, {
@@ -20,8 +27,12 @@ const connectDB = async () => {
       return;
     } catch (error) {
       console.error("MongoDB connection failed:", error.message);
+      if (allowInMemoryDb) {
+        await connectInMemoryDb();
+        return;
+      }
       throw new Error(
-        "MONGODB_URI is set but MongoDB is not reachable. Start MongoDB or fix MONGODB_URI.",
+        "MONGODB_URI is set but MongoDB is not reachable. Start MongoDB, fix MONGODB_URI, or set ALLOW_IN_MEMORY_DB=true for local development.",
       );
     }
   }
@@ -29,13 +40,7 @@ const connectDB = async () => {
   // Fall back to in-memory server only when no persistent DB is configured.
   if (allowInMemoryDb) {
     try {
-      memoryServer = await MongoMemoryServer.create();
-      await mongoose.connect(memoryServer.getUri(), {
-        dbName: "travel",
-      });
-      console.warn(
-        "MongoDB memory server connected (in-memory). Data will NOT persist across restarts.",
-      );
+      await connectInMemoryDb();
       return;
     } catch (error) {
       console.error("MongoDB fallback connection failed:", error.message);

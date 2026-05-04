@@ -253,302 +253,98 @@ export default function DashboardPage() {
 
   return (
     <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">
-              {activeTab === "destinations"
-                ? "Destinations"
-                : activeTab === "bookings"
-                  ? "Bookings"
-                  : activeTab === "profile"
-                    ? "Profile"
-                    : "Overview"}
-            </h1>
-            <p className="text-sm text-gray-500 mt-1">
-              {isAdmin ? "Manage your platform" : "Your travel overview"}
-            </p>
-          </div>
-          {isAdmin && (
-            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-purple-50 text-purple-700 text-xs font-medium rounded-full">
-              <Shield className="w-3.5 h-3.5" />
-              Admin
-            </span>
-          )}
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">
+            {activeTab === "destinations"
+              ? "Destinations"
+              : activeTab === "bookings"
+                ? "Bookings"
+                : activeTab === "profile"
+                  ? "Profile"
+                  : "Overview"}
+          </h1>
+          <p className="text-sm text-gray-500 mt-1">
+            {isAdmin ? "Manage your platform" : "Your travel overview"}
+          </p>
         </div>
-
-        {/* Success message */}
-        {success && (
-          <div className="mb-6 px-4 py-3 bg-green-50 border border-green-100 rounded-xl text-sm text-green-600 flex items-center gap-2">
-            <CheckCircle className="w-4 h-4" />
-            {success}
-          </div>
+        {isAdmin && (
+          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-purple-50 text-purple-700 text-xs font-medium rounded-full">
+            <Shield className="w-3.5 h-3.5" />
+            Admin
+          </span>
         )}
+      </div>
 
-        {loading ? (
-          <div className="flex items-center justify-center py-20">
-            <Loader2 className="w-6 h-6 text-blue-600 animate-spin" />
-          </div>
-        ) : (
-          <>
-            {/* Overview Tab */}
-            {activeTab === "overview" && (
-              <div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                  {isAdmin && (
-                    <StatCard
-                      icon={Globe}
-                      label="Destinations"
-                      value={destinations.length}
-                      color="blue"
-                    />
-                  )}
-                  <StatCard
-                    icon={CalendarCheck}
-                    label="Total Bookings"
-                    value={bookings.length}
-                    color="green"
-                  />
-                  <StatCard
-                    icon={Users}
-                    label="Pending"
-                    value={pendingBookings}
-                    color="amber"
-                  />
-                  <StatCard
-                    icon={Star}
-                    label="Confirmed"
-                    value={confirmedBookings}
-                    color="purple"
-                  />
-                </div>
+      {/* Success message */}
+      {success && (
+        <div className="mb-6 px-4 py-3 bg-green-50 border border-green-100 rounded-xl text-sm text-green-600 flex items-center gap-2">
+          <CheckCircle className="w-4 h-4" />
+          {success}
+        </div>
+      )}
 
-                {/* Recent Bookings */}
-                <div className="bg-white rounded-2xl border border-gray-100 p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-base font-semibold text-gray-900">
-                      Recent Bookings
-                    </h3>
-                    <Link
-                      to="/my-bookings"
-                      className="text-sm text-blue-600 hover:text-blue-700 font-medium flex items-center gap-1"
-                    >
-                      View all
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </Link>
-                  </div>
-
-                  {bookings.length === 0 ? (
-                    <p className="text-sm text-gray-400 py-6 text-center">
-                      No bookings yet. Start exploring destinations!
-                    </p>
-                  ) : (
-                    <div className="divide-y divide-gray-50">
-                      {bookings.slice(0, 5).map((booking) => (
-                        <div
-                          key={booking._id}
-                          className="flex items-center justify-between py-3"
-                        >
-                          <div>
-                            <p className="text-sm font-medium text-gray-800">
-                              {booking.destination}
-                            </p>
-                            <p className="text-xs text-gray-400">
-                              {new Date(booking.startDate).toLocaleDateString()}
-                              {isAdmin && (
-                                <>
-                                  {" "}
-                                  · {booking.user?.name || booking.fullName} (
-                                  {booking.user?.email || booking.email})
-                                </>
-                              )}
-                            </p>
-                          </div>
-                          <span
-                            className={`px-2.5 py-1 rounded-full text-xs font-medium ${
-                              booking.status === "confirmed"
-                                ? "bg-green-50 text-green-700"
-                                : booking.status === "cancelled"
-                                  ? "bg-red-50 text-red-600"
-                                  : "bg-amber-50 text-amber-700"
-                            }`}
-                          >
-                            {booking.status}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
+      {loading ? (
+        <div className="flex items-center justify-center py-20">
+          <Loader2 className="w-6 h-6 text-blue-600 animate-spin" />
+        </div>
+      ) : (
+        <>
+          {/* Overview Tab */}
+          {activeTab === "overview" && (
+            <div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                {isAdmin && (
+                  <StatCard
+                    icon={Globe}
+                    label="Destinations"
+                    value={destinations.length}
+                    color="blue"
+                  />
+                )}
+                <StatCard
+                  icon={CalendarCheck}
+                  label="Total Bookings"
+                  value={bookings.length}
+                  color="green"
+                />
+                <StatCard
+                  icon={Users}
+                  label="Pending"
+                  value={pendingBookings}
+                  color="amber"
+                />
+                <StatCard
+                  icon={Star}
+                  label="Confirmed"
+                  value={confirmedBookings}
+                  color="purple"
+                />
               </div>
-            )}
 
-            {/* Destinations Tab (Admin Only) */}
-            {activeTab === "destinations" && isAdmin && (
-              <div>
-                <div className="flex items-center justify-between mb-6">
-                  <p className="text-sm text-gray-500">
-                    {destinations.length} destination
-                    {destinations.length !== 1 ? "s" : ""}
-                  </p>
-                  <button
-                    onClick={openCreate}
-                    className="inline-flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-xl transition-colors cursor-pointer"
-                  >
-                    <Plus className="w-4 h-4" />
-                    Add Destination
-                  </button>
-                </div>
-
-                <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
-                  <div className="overflow-x-auto">
-                    <table className="w-full">
-                      <thead>
-                        <tr className="border-b border-gray-100">
-                          <th className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider px-6 py-3">
-                            Destination
-                          </th>
-                          <th className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider px-6 py-3">
-                            Category
-                          </th>
-                          <th className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider px-6 py-3">
-                            Price
-                          </th>
-                          <th className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider px-6 py-3">
-                            Rating
-                          </th>
-                          <th className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider px-6 py-3">
-                            Featured
-                          </th>
-                          <th className="text-right text-xs font-medium text-gray-500 uppercase tracking-wider px-6 py-3">
-                            Actions
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-gray-50">
-                        {destinations.map((dest) => (
-                          <tr
-                            key={dest._id}
-                            className="hover:bg-gray-50/50 transition-colors"
-                          >
-                            <td className="px-6 py-4">
-                              <div className="flex items-center gap-3">
-                                <img
-                                  src={dest.image}
-                                  alt={dest.name}
-                                  className="w-10 h-10 rounded-lg object-cover"
-                                />
-                                <div>
-                                  <p className="text-sm font-medium text-gray-900">
-                                    {dest.name}
-                                  </p>
-                                  <p className="text-xs text-gray-400">
-                                    {dest.country}
-                                  </p>
-                                </div>
-                              </div>
-                            </td>
-                            <td className="px-6 py-4">
-                              <span className="text-xs font-medium text-gray-600 capitalize">
-                                {dest.category}
-                              </span>
-                            </td>
-                            <td className="px-6 py-4">
-                              <span className="text-sm text-gray-800">
-                                ${(dest.price ?? 0).toLocaleString()}
-                              </span>
-                            </td>
-                            <td className="px-6 py-4">
-                              <div className="flex items-center gap-1">
-                                <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
-                                <span className="text-sm text-gray-700">
-                                  {dest.rating}
-                                </span>
-                              </div>
-                            </td>
-                            <td className="px-6 py-4">
-                              <span
-                                className={`px-2 py-0.5 rounded-full text-xs font-medium ${
-                                  dest.featured
-                                    ? "bg-green-50 text-green-700"
-                                    : "bg-gray-100 text-gray-500"
-                                }`}
-                              >
-                                {dest.featured ? "Yes" : "No"}
-                              </span>
-                            </td>
-                            <td className="px-6 py-4 text-right">
-                              <div className="flex items-center justify-end gap-1">
-                                <button
-                                  onClick={() => openEdit(dest)}
-                                  className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors cursor-pointer"
-                                  title="Edit"
-                                >
-                                  <Pencil className="w-4 h-4" />
-                                </button>
-                                <button
-                                  onClick={() => handleDelete(dest._id)}
-                                  disabled={deleting === dest._id}
-                                  className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer disabled:opacity-50"
-                                  title="Delete"
-                                >
-                                  {deleting === dest._id ? (
-                                    <Loader2 className="w-4 h-4 animate-spin" />
-                                  ) : (
-                                    <Trash2 className="w-4 h-4" />
-                                  )}
-                                </button>
-                              </div>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-
-                  {destinations.length === 0 && (
-                    <div className="text-center py-12">
-                      <MapPin className="w-8 h-8 text-gray-300 mx-auto mb-3" />
-                      <p className="text-sm text-gray-500">
-                        No destinations yet. Create your first one!
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {/* Bookings Tab */}
-            {activeTab === "bookings" && (
+              {/* Recent Bookings */}
               <div className="bg-white rounded-2xl border border-gray-100 p-6">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-base font-semibold text-gray-900">
-                    All Bookings
+                    Recent Bookings
                   </h3>
                   <Link
                     to="/my-bookings"
-                    className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+                    className="text-sm text-blue-600 hover:text-blue-700 font-medium flex items-center gap-1"
                   >
-                    Manage bookings
+                    View all
+                    <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>
 
                 {bookings.length === 0 ? (
-                  <div className="text-center py-12">
-                    <CalendarCheck className="w-8 h-8 text-gray-300 mx-auto mb-3" />
-                    <p className="text-sm text-gray-500 mb-4">
-                      No bookings yet.
-                    </p>
-                    <Link
-                      to="/destinations"
-                      className="text-sm font-medium text-blue-600 hover:text-blue-700"
-                    >
-                      Explore destinations
-                    </Link>
-                  </div>
+                  <p className="text-sm text-gray-400 py-6 text-center">
+                    No bookings yet. Start exploring destinations!
+                  </p>
                 ) : (
                   <div className="divide-y divide-gray-50">
-                    {bookings.map((booking) => (
+                    {bookings.slice(0, 5).map((booking) => (
                       <div
                         key={booking._id}
                         className="flex items-center justify-between py-3"
@@ -558,10 +354,7 @@ export default function DashboardPage() {
                             {booking.destination}
                           </p>
                           <p className="text-xs text-gray-400">
-                            {new Date(booking.startDate).toLocaleDateString()} -{" "}
-                            {booking.guests} guest
-                            {booking.guests !== 1 ? "s" : ""} - $
-                            {(booking.budget ?? 0).toLocaleString()}
+                            {new Date(booking.startDate).toLocaleDateString()}
                             {isAdmin && (
                               <>
                                 {" "}
@@ -587,160 +380,365 @@ export default function DashboardPage() {
                   </div>
                 )}
               </div>
-            )}
+            </div>
+          )}
 
-            {/* Profile Tab */}
-            {activeTab === "profile" && (
-              <div className="space-y-6">
-                {(profileSuccess || profileError) && (
-                  <div
-                    className={`px-4 py-3 rounded-xl text-sm ${
-                      profileSuccess
-                        ? "bg-green-50 border border-green-100 text-green-600"
-                        : "bg-red-50 border border-red-100 text-red-600"
-                    }`}
-                  >
-                    {profileSuccess || profileError}
+          {/* Destinations Tab (Admin Only) */}
+          {activeTab === "destinations" && isAdmin && (
+            <div>
+              <div className="flex items-center justify-between mb-6">
+                <p className="text-sm text-gray-500">
+                  {destinations.length} destination
+                  {destinations.length !== 1 ? "s" : ""}
+                </p>
+                <button
+                  onClick={openCreate}
+                  className="inline-flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-xl transition-colors cursor-pointer"
+                >
+                  <Plus className="w-4 h-4" />
+                  Add Destination
+                </button>
+              </div>
+
+              <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="border-b border-gray-100">
+                        <th className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider px-6 py-3">
+                          Destination
+                        </th>
+                        <th className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider px-6 py-3">
+                          Category
+                        </th>
+                        <th className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider px-6 py-3">
+                          Price
+                        </th>
+                        <th className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider px-6 py-3">
+                          Rating
+                        </th>
+                        <th className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider px-6 py-3">
+                          Featured
+                        </th>
+                        <th className="text-right text-xs font-medium text-gray-500 uppercase tracking-wider px-6 py-3">
+                          Actions
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-50">
+                      {destinations.map((dest) => (
+                        <tr
+                          key={dest._id}
+                          className="hover:bg-gray-50/50 transition-colors"
+                        >
+                          <td className="px-6 py-4">
+                            <div className="flex items-center gap-3">
+                              <img
+                                src={dest.image}
+                                alt={dest.name}
+                                className="w-10 h-10 rounded-lg object-cover"
+                              />
+                              <div>
+                                <p className="text-sm font-medium text-gray-900">
+                                  {dest.name}
+                                </p>
+                                <p className="text-xs text-gray-400">
+                                  {dest.country}
+                                </p>
+                              </div>
+                            </div>
+                          </td>
+                          <td className="px-6 py-4">
+                            <span className="text-xs font-medium text-gray-600 capitalize">
+                              {dest.category}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4">
+                            <span className="text-sm text-gray-800">
+                              ${(dest.price ?? 0).toLocaleString()}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4">
+                            <div className="flex items-center gap-1">
+                              <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+                              <span className="text-sm text-gray-700">
+                                {dest.rating}
+                              </span>
+                            </div>
+                          </td>
+                          <td className="px-6 py-4">
+                            <span
+                              className={`px-2 py-0.5 rounded-full text-xs font-medium ${
+                                dest.featured
+                                  ? "bg-green-50 text-green-700"
+                                  : "bg-gray-100 text-gray-500"
+                              }`}
+                            >
+                              {dest.featured ? "Yes" : "No"}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4 text-right">
+                            <div className="flex items-center justify-end gap-1">
+                              <button
+                                onClick={() => openEdit(dest)}
+                                className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors cursor-pointer"
+                                title="Edit"
+                              >
+                                <Pencil className="w-4 h-4" />
+                              </button>
+                              <button
+                                onClick={() => handleDelete(dest._id)}
+                                disabled={deleting === dest._id}
+                                className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer disabled:opacity-50"
+                                title="Delete"
+                              >
+                                {deleting === dest._id ? (
+                                  <Loader2 className="w-4 h-4 animate-spin" />
+                                ) : (
+                                  <Trash2 className="w-4 h-4" />
+                                )}
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                {destinations.length === 0 && (
+                  <div className="text-center py-12">
+                    <MapPin className="w-8 h-8 text-gray-300 mx-auto mb-3" />
+                    <p className="text-sm text-gray-500">
+                      No destinations yet. Create your first one!
+                    </p>
                   </div>
                 )}
+              </div>
+            </div>
+          )}
 
-                <div className="bg-white rounded-2xl border border-gray-100 p-6">
-                  <div className="flex items-center gap-4 mb-6 pb-6 border-b border-gray-100">
-                    <div className="w-14 h-14 rounded-full bg-blue-50 flex items-center justify-center">
-                      <UserCircle className="w-6 h-6 text-blue-600" />
-                    </div>
-                    <div>
-                      <p className="text-lg font-semibold text-gray-900">
-                        {user.name}
-                      </p>
-                      <div className="flex items-center gap-2 text-sm text-gray-500">
-                        <Mail className="w-3.5 h-3.5" />
-                        {user.email}
+          {/* Bookings Tab */}
+          {activeTab === "bookings" && (
+            <div className="bg-white rounded-2xl border border-gray-100 p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-base font-semibold text-gray-900">
+                  All Bookings
+                </h3>
+                <Link
+                  to="/my-bookings"
+                  className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+                >
+                  Manage bookings
+                </Link>
+              </div>
+
+              {bookings.length === 0 ? (
+                <div className="text-center py-12">
+                  <CalendarCheck className="w-8 h-8 text-gray-300 mx-auto mb-3" />
+                  <p className="text-sm text-gray-500 mb-4">No bookings yet.</p>
+                  <Link
+                    to="/destinations"
+                    className="text-sm font-medium text-blue-600 hover:text-blue-700"
+                  >
+                    Explore destinations
+                  </Link>
+                </div>
+              ) : (
+                <div className="divide-y divide-gray-50">
+                  {bookings.map((booking) => (
+                    <div
+                      key={booking._id}
+                      className="flex items-center justify-between py-3"
+                    >
+                      <div>
+                        <p className="text-sm font-medium text-gray-800">
+                          {booking.destination}
+                        </p>
+                        <p className="text-xs text-gray-400">
+                          {new Date(booking.startDate).toLocaleDateString()} -{" "}
+                          {booking.guests} guest
+                          {booking.guests !== 1 ? "s" : ""} - $
+                          {(booking.budget ?? 0).toLocaleString()}
+                          {isAdmin && (
+                            <>
+                              {" "}
+                              · {booking.user?.name || booking.fullName} (
+                              {booking.user?.email || booking.email})
+                            </>
+                          )}
+                        </p>
                       </div>
-                    </div>
-                    {isAdmin && (
-                      <span className="ml-auto px-3 py-1 bg-purple-50 text-purple-700 text-xs font-medium rounded-full flex items-center gap-1">
-                        <Shield className="w-3 h-3" />
-                        Admin
-                      </span>
-                    )}
-                  </div>
-
-                  <form onSubmit={handleNameUpdate}>
-                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                      Full Name
-                    </label>
-                    <div className="flex gap-3">
-                      <input
-                        type="text"
-                        required
-                        minLength={2}
-                        value={nameForm.name}
-                        onChange={(e) => setNameForm({ name: e.target.value })}
-                        className="flex-1 px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-300 transition-all"
-                      />
-                      <button
-                        type="submit"
-                        disabled={
-                          profileSaving ||
-                          !nameForm.name.trim() ||
-                          nameForm.name.trim() === user.name
-                        }
-                        className="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-200 disabled:text-gray-400 text-white text-sm font-medium rounded-xl transition-colors cursor-pointer disabled:cursor-not-allowed"
+                      <span
+                        className={`px-2.5 py-1 rounded-full text-xs font-medium ${
+                          booking.status === "confirmed"
+                            ? "bg-green-50 text-green-700"
+                            : booking.status === "cancelled"
+                              ? "bg-red-50 text-red-600"
+                              : "bg-amber-50 text-amber-700"
+                        }`}
                       >
-                        {profileSaving ? (
-                          <Loader2 className="w-4 h-4 animate-spin" />
-                        ) : (
-                          "Save"
-                        )}
-                      </button>
+                        {booking.status}
+                      </span>
                     </div>
-                  </form>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Profile Tab */}
+          {activeTab === "profile" && (
+            <div className="space-y-6">
+              {(profileSuccess || profileError) && (
+                <div
+                  className={`px-4 py-3 rounded-xl text-sm ${
+                    profileSuccess
+                      ? "bg-green-50 border border-green-100 text-green-600"
+                      : "bg-red-50 border border-red-100 text-red-600"
+                  }`}
+                >
+                  {profileSuccess || profileError}
+                </div>
+              )}
+
+              <div className="bg-white rounded-2xl border border-gray-100 p-6">
+                <div className="flex items-center gap-4 mb-6 pb-6 border-b border-gray-100">
+                  <div className="w-14 h-14 rounded-full bg-blue-50 flex items-center justify-center">
+                    <UserCircle className="w-6 h-6 text-blue-600" />
+                  </div>
+                  <div>
+                    <p className="text-lg font-semibold text-gray-900">
+                      {user.name}
+                    </p>
+                    <div className="flex items-center gap-2 text-sm text-gray-500">
+                      <Mail className="w-3.5 h-3.5" />
+                      {user.email}
+                    </div>
+                  </div>
+                  {isAdmin && (
+                    <span className="ml-auto px-3 py-1 bg-purple-50 text-purple-700 text-xs font-medium rounded-full flex items-center gap-1">
+                      <Shield className="w-3 h-3" />
+                      Admin
+                    </span>
+                  )}
                 </div>
 
-                <div className="bg-white rounded-2xl border border-gray-100 p-6">
-                  <div className="flex items-center gap-2 mb-5">
-                    <Lock className="w-4 h-4 text-gray-500" />
-                    <h3 className="text-base font-semibold text-gray-900">
-                      Change Password
-                    </h3>
-                  </div>
-
-                  <form onSubmit={handlePasswordUpdate} className="space-y-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                        Current Password
-                      </label>
-                      <input
-                        type="password"
-                        required
-                        minLength={6}
-                        value={passwordForm.currentPassword}
-                        onChange={(e) =>
-                          setPasswordForm({
-                            ...passwordForm,
-                            currentPassword: e.target.value,
-                          })
-                        }
-                        className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-300 transition-all"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                        New Password
-                      </label>
-                      <input
-                        type="password"
-                        required
-                        minLength={6}
-                        value={passwordForm.newPassword}
-                        onChange={(e) =>
-                          setPasswordForm({
-                            ...passwordForm,
-                            newPassword: e.target.value,
-                          })
-                        }
-                        className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-300 transition-all"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                        Confirm New Password
-                      </label>
-                      <input
-                        type="password"
-                        required
-                        minLength={6}
-                        value={passwordForm.confirmPassword}
-                        onChange={(e) =>
-                          setPasswordForm({
-                            ...passwordForm,
-                            confirmPassword: e.target.value,
-                          })
-                        }
-                        className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-300 transition-all"
-                      />
-                    </div>
+                <form onSubmit={handleNameUpdate}>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                    Full Name
+                  </label>
+                  <div className="flex gap-3">
+                    <input
+                      type="text"
+                      required
+                      minLength={2}
+                      value={nameForm.name}
+                      onChange={(e) => setNameForm({ name: e.target.value })}
+                      className="flex-1 px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-300 transition-all"
+                    />
                     <button
                       type="submit"
-                      disabled={profileSaving}
-                      className="w-full py-2.5 bg-gray-900 hover:bg-gray-800 disabled:bg-gray-300 text-white text-sm font-medium rounded-xl transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:cursor-not-allowed"
+                      disabled={
+                        profileSaving ||
+                        !nameForm.name.trim() ||
+                        nameForm.name.trim() === user.name
+                      }
+                      className="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-200 disabled:text-gray-400 text-white text-sm font-medium rounded-xl transition-colors cursor-pointer disabled:cursor-not-allowed"
                     >
                       {profileSaving ? (
-                        <>
-                          <Loader2 className="w-4 h-4 animate-spin" />
-                          Updating...
-                        </>
+                        <Loader2 className="w-4 h-4 animate-spin" />
                       ) : (
-                        "Update Password"
+                        "Save"
                       )}
                     </button>
-                  </form>
-                </div>
+                  </div>
+                </form>
               </div>
-            )}
-          </>
-        )}
+
+              <div className="bg-white rounded-2xl border border-gray-100 p-6">
+                <div className="flex items-center gap-2 mb-5">
+                  <Lock className="w-4 h-4 text-gray-500" />
+                  <h3 className="text-base font-semibold text-gray-900">
+                    Change Password
+                  </h3>
+                </div>
+
+                <form onSubmit={handlePasswordUpdate} className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                      Current Password
+                    </label>
+                    <input
+                      type="password"
+                      required
+                      minLength={6}
+                      value={passwordForm.currentPassword}
+                      onChange={(e) =>
+                        setPasswordForm({
+                          ...passwordForm,
+                          currentPassword: e.target.value,
+                        })
+                      }
+                      className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-300 transition-all"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                      New Password
+                    </label>
+                    <input
+                      type="password"
+                      required
+                      minLength={6}
+                      value={passwordForm.newPassword}
+                      onChange={(e) =>
+                        setPasswordForm({
+                          ...passwordForm,
+                          newPassword: e.target.value,
+                        })
+                      }
+                      className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-300 transition-all"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                      Confirm New Password
+                    </label>
+                    <input
+                      type="password"
+                      required
+                      minLength={6}
+                      value={passwordForm.confirmPassword}
+                      onChange={(e) =>
+                        setPasswordForm({
+                          ...passwordForm,
+                          confirmPassword: e.target.value,
+                        })
+                      }
+                      className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-300 transition-all"
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={profileSaving}
+                    className="w-full py-2.5 bg-gray-900 hover:bg-gray-800 disabled:bg-gray-300 text-white text-sm font-medium rounded-xl transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:cursor-not-allowed"
+                  >
+                    {profileSaving ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        Updating...
+                      </>
+                    ) : (
+                      "Update Password"
+                    )}
+                  </button>
+                </form>
+              </div>
+            </div>
+          )}
+        </>
+      )}
 
       {/* Create/Edit Modal */}
       {showModal && (

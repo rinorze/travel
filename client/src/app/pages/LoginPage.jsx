@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Compass, Eye, EyeOff, Loader2 } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { loginUser } from "../lib/api.js";
 import { useAuth } from "../lib/AuthContext.jsx";
 
@@ -32,36 +32,36 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50/50 px-4 py-12">
+    <div className="min-h-screen flex items-center justify-center bg-[#f7f4ef] px-4 py-12">
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
           <Link
             to="/"
-            className="inline-flex items-center gap-2 text-gray-900 mb-4"
+            className="inline-flex items-center gap-2 text-[#1f2933] mb-4"
           >
-            <Compass className="w-7 h-7 text-blue-600" />
-            <span className="text-xl font-semibold tracking-tight">
-              Travel
+            <span className="grid h-8 w-8 place-items-center rounded-full border border-[#1f2933] text-xs font-bold">
+              T
             </span>
+            <span className="text-xl font-semibold tracking-tight">Travel</span>
           </Link>
-          <h1 className="text-2xl font-bold text-gray-900 mt-4 mb-1">
+          <h1 className="text-2xl font-semibold text-[#1f2933] mt-4 mb-1">
             Welcome back
           </h1>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-[#6f6a61]">
             Log in to manage your bookings
           </p>
         </div>
 
-        <div className="bg-white rounded-2xl border border-gray-100 p-6 sm:p-8">
+        <div className="bg-[#fffdf9] rounded-lg border border-[#ded7cc] p-6 sm:p-8">
           {error && (
-            <div className="mb-4 px-4 py-3 bg-red-50 border border-red-100 rounded-xl text-sm text-red-600">
+            <div className="mb-4 px-4 py-3 bg-red-50 border border-red-100 rounded-lg text-sm text-red-600">
               {error}
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              <label className="block text-sm font-medium text-[#1f2933] mb-1.5">
                 Email
               </label>
               <input
@@ -70,12 +70,12 @@ export default function LoginPage() {
                 value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
                 placeholder="you@example.com"
-                className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-300 transition-all"
+                className="field"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              <label className="block text-sm font-medium text-[#1f2933] mb-1.5">
                 Password
               </label>
               <div className="relative">
@@ -87,12 +87,12 @@ export default function LoginPage() {
                     setForm({ ...form, password: e.target.value })
                   }
                   placeholder="Enter your password"
-                  className="w-full px-3 py-2.5 pr-10 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-300 transition-all"
+                  className="field pr-10"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 cursor-pointer"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8f958b] hover:text-[#1f2933] cursor-pointer"
                 >
                   {showPassword ? (
                     <EyeOff className="w-4 h-4" />
@@ -106,7 +106,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white text-sm font-medium rounded-xl transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:cursor-not-allowed"
+              className="button-primary w-full disabled:cursor-not-allowed disabled:bg-[#8f958b]"
             >
               {loading ? (
                 <>
@@ -120,11 +120,11 @@ export default function LoginPage() {
           </form>
         </div>
 
-        <p className="text-center text-sm text-gray-500 mt-6">
+        <p className="text-center text-sm text-[#6f6a61] mt-6">
           Don't have an account?{" "}
           <Link
             to="/register"
-            className="font-medium text-blue-600 hover:text-blue-700"
+            className="font-semibold text-[#4d6554] hover:text-[#1f2933]"
           >
             Sign up
           </Link>

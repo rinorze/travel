@@ -30,9 +30,19 @@ const parseResponse = async (response) => {
   return data;
 };
 
+const apiFetch = async (url, options) => {
+  try {
+    return await fetch(url, options);
+  } catch {
+    throw new Error(
+      "Could not reach the API server. Make sure the server is running on http://localhost:5000.",
+    );
+  }
+};
+
 // Auth
 export const registerUser = async (payload) => {
-  const response = await fetch(`${API_URL}/auth/register`, {
+  const response = await apiFetch(`${API_URL}/auth/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
@@ -41,7 +51,7 @@ export const registerUser = async (payload) => {
 };
 
 export const loginUser = async (payload) => {
-  const response = await fetch(`${API_URL}/auth/login`, {
+  const response = await apiFetch(`${API_URL}/auth/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
@@ -50,14 +60,14 @@ export const loginUser = async (payload) => {
 };
 
 export const getMe = async () => {
-  const response = await fetch(`${API_URL}/auth/me`, {
+  const response = await apiFetch(`${API_URL}/auth/me`, {
     headers: getHeaders(),
   });
   return parseResponse(response);
 };
 
 export const updateProfile = async (payload) => {
-  const response = await fetch(`${API_URL}/auth/profile`, {
+  const response = await apiFetch(`${API_URL}/auth/profile`, {
     method: "PATCH",
     headers: getHeaders(),
     body: JSON.stringify(payload),
@@ -68,17 +78,17 @@ export const updateProfile = async (payload) => {
 // Destinations
 export const listDestinations = async (params = {}) => {
   const query = new URLSearchParams(params).toString();
-  const response = await fetch(`${API_URL}/destinations?${query}`);
+  const response = await apiFetch(`${API_URL}/destinations?${query}`);
   return parseResponse(response);
 };
 
 export const getDestination = async (id) => {
-  const response = await fetch(`${API_URL}/destinations/${id}`);
+  const response = await apiFetch(`${API_URL}/destinations/${id}`);
   return parseResponse(response);
 };
 
 export const seedDestinations = async () => {
-  const response = await fetch(`${API_URL}/destinations/seed`, {
+  const response = await apiFetch(`${API_URL}/destinations/seed`, {
     method: "POST",
   });
   return parseResponse(response);
@@ -86,7 +96,7 @@ export const seedDestinations = async () => {
 
 // Admin Destinations
 export const createDestinationAdmin = async (payload) => {
-  const response = await fetch(`${API_URL}/destinations`, {
+  const response = await apiFetch(`${API_URL}/destinations`, {
     method: "POST",
     headers: getHeaders(),
     body: JSON.stringify(payload),
@@ -95,7 +105,7 @@ export const createDestinationAdmin = async (payload) => {
 };
 
 export const updateDestinationAdmin = async (id, payload) => {
-  const response = await fetch(`${API_URL}/destinations/${id}`, {
+  const response = await apiFetch(`${API_URL}/destinations/${id}`, {
     method: "PUT",
     headers: getHeaders(),
     body: JSON.stringify(payload),
@@ -104,7 +114,7 @@ export const updateDestinationAdmin = async (id, payload) => {
 };
 
 export const deleteDestinationAdmin = async (id) => {
-  const response = await fetch(`${API_URL}/destinations/${id}`, {
+  const response = await apiFetch(`${API_URL}/destinations/${id}`, {
     method: "DELETE",
     headers: getHeaders(),
   });
@@ -115,14 +125,14 @@ export const deleteDestinationAdmin = async (id) => {
 export const listBookings = async (params = {}) => {
   const query = new URLSearchParams(params).toString();
   const suffix = query ? `?${query}` : "";
-  const response = await fetch(`${API_URL}/bookings${suffix}`, {
+  const response = await apiFetch(`${API_URL}/bookings${suffix}`, {
     headers: getHeaders(),
   });
   return parseResponse(response);
 };
 
 export const createBooking = async (payload) => {
-  const response = await fetch(`${API_URL}/bookings`, {
+  const response = await apiFetch(`${API_URL}/bookings`, {
     method: "POST",
     headers: getHeaders(),
     body: JSON.stringify(payload),
@@ -131,7 +141,7 @@ export const createBooking = async (payload) => {
 };
 
 export const cancelBooking = async (id) => {
-  const response = await fetch(`${API_URL}/bookings/${id}/cancel`, {
+  const response = await apiFetch(`${API_URL}/bookings/${id}/cancel`, {
     method: "PATCH",
     headers: getHeaders(),
   });
