@@ -181,9 +181,9 @@ export default function BookingPage() {
           {/* Booking Form */}
           <div className={destination ? "lg:col-span-3" : "lg:col-span-5 max-w-2xl"}>
             <div className="bg-[#fffdf9] rounded-lg border border-[#ded7cc] p-6 sm:p-8">
-              <h2 className="text-xl font-semibold text-[#1f2933] mb-1">
+              <h1 className="text-xl font-semibold text-[#1f2933] mb-1">
                 Book Your Trip
-              </h2>
+              </h1>
               <p className="text-sm text-[#6f6a61] mb-6">
                 Fill in the details below to reserve your spot
               </p>

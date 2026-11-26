@@ -266,7 +266,7 @@ export default function DashboardPage() {
                   : "Overview"}
           </h1>
           <p className="text-sm text-gray-500 mt-1">
-            {isAdmin ? "Manage your platform" : "Your travel overview"}
+            {isAdmin ? "Manage your platform" : activeTab === "profile" ? "Your account details" : "Your travel overview"}
           </p>
         </div>
         {isAdmin && (

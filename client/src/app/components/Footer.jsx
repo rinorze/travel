@@ -42,20 +42,28 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="mb-3 text-sm font-semibold text-[#1f2933]">Company</h3>
+            <h3 className="mb-3 text-sm font-semibold text-[#1f2933]">Project</h3>
             <ul className="space-y-2">
-              {["About", "Contact", "Privacy", "Terms"].map((item) => (
-                <li key={item}>
-                  <span className="text-sm text-[#6f6a61]">{item}</span>
-                </li>
-              ))}
+              <li>
+                <a
+                  href="https://github.com/rinorze/travel"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-sm text-[#6f6a61] hover:text-[#1f2933]"
+                >
+                  Source code on GitHub
+                </a>
+              </li>
+              <li>
+                <span className="text-sm text-[#6f6a61]">A portfolio project, not a real travel agency</span>
+              </li>
             </ul>
           </div>
         </div>
 
         <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-[#d8d1c6] pt-6 sm:flex-row">
           <p className="text-xs text-[#7a756b]">
-            &copy; {new Date().getFullYear()} Travel. All rights reserved.
+            &copy; {new Date().getFullYear()} Rinor Zeqiri · Travel
           </p>
         </div>
       </div>
