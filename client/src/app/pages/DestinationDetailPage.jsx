@@ -183,8 +183,8 @@ export default function DestinationDetailPage() {
             <ul className="space-y-2 text-[#5f665d] text-sm leading-relaxed mb-8">
               <li className="flex items-start gap-2">
                 <Calendar className="w-4 h-4 text-[#4d6554] mt-0.5 flex-shrink-0" />
-                Flexible booking dates with free cancellation up to 24 hours
-                before departure
+                Pick your own dates; you can cancel a booking any time from My
+                Bookings
               </li>
               <li className="flex items-start gap-2">
                 <Users className="w-4 h-4 text-[#4d6554] mt-0.5 flex-shrink-0" />
@@ -192,7 +192,7 @@ export default function DestinationDetailPage() {
               </li>
               <li className="flex items-start gap-2">
                 <Star className="w-4 h-4 text-[#4d6554] mt-0.5 flex-shrink-0" />
-                Highly rated experience by thousands of travelers worldwide
+                Rated {destination.rating ?? "–"} / 5 in the catalog
               </li>
             </ul>
           </div>
@@ -207,7 +207,7 @@ export default function DestinationDetailPage() {
                 <span className="text-sm text-[#7a756b] ml-1">/ person</span>
               </div>
               <p className="text-sm text-[#6f6a61] mb-5">
-                Includes guided tours, accommodations, and local experiences.
+                Price per person. The final price depends on your dates and group size.
               </p>
               <Link
                 to={`/book/${destination._id}`}

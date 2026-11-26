@@ -108,3 +108,11 @@ describe("seeding destinations", () => {
       .expect(403);
   });
 });
+
+describe("destination search", () => {
+  it("treats the search text literally, not as a regular expression", async () => {
+    await request(app).get("/api/destinations").query({ search: "(a+)+$" }).expect(200);
+    const res = await request(app).get("/api/destinations").query({ search: ".*" }).expect(200);
+    assert.equal(res.body.destinations.length, 0);
+  });
+});

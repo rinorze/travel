@@ -6,13 +6,18 @@ import DestinationCard from "../components/DestinationCard.jsx";
 
 export default function HomePage() {
   const [featured, setFeatured] = useState([]);
+  const [all, setAll] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const load = async () => {
       try {
-        const data = await listDestinations({ featured: "true" });
-        setFeatured(data.destinations.slice(0, 6));
+        const [featuredData, allData] = await Promise.all([
+          listDestinations({ featured: "true" }),
+          listDestinations(),
+        ]);
+        setFeatured(featuredData.destinations.slice(0, 6));
+        setAll(allData.destinations);
       } catch (err) {
         console.error("Failed to load destinations:", err);
       } finally {
@@ -56,9 +61,9 @@ export default function HomePage() {
       <section className="border-y border-[#ded7cc] bg-[#fffdf9]">
         <div className="mx-auto grid max-w-7xl grid-cols-1 divide-y divide-[#ded7cc] px-4 sm:px-6 md:grid-cols-3 md:divide-x md:divide-y-0 lg:px-8">
           {[
-            ["50+", "destinations kept easy to compare"],
-            ["4.9", "average traveler rating"],
-            ["24h", "free cancellation window"],
+            [all.length || "–", "destinations in the catalog"],
+            [averageRating(all), "average destination rating"],
+            [countries(all), "countries"],
           ].map(([value, label]) => (
             <div key={label} className="py-6 md:px-8">
               <div className="text-2xl font-semibold text-[#1f2933]">
@@ -152,4 +157,14 @@ export default function HomePage() {
       </section>
     </div>
   );
+}
+
+function averageRating(destinations) {
+  const rated = destinations.filter((d) => typeof d.rating === "number");
+  if (!rated.length) return "–";
+  return (rated.reduce((sum, d) => sum + d.rating, 0) / rated.length).toFixed(1);
+}
+
+function countries(destinations) {
+  return new Set(destinations.map((d) => d.country).filter(Boolean)).size || "–";
 }

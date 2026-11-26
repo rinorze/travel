@@ -52,7 +52,7 @@ export default function DashboardSidebar({ className = "", onNavigate }) {
           onClick={() => onNavigate?.()}
           className="font-semibold text-gray-900"
         >
-          Travel Admin
+          {isAdmin ? "Travel Admin" : "My Travel"}
         </Link>
         {isAdmin && (
           <span className="inline-flex items-center gap-1 px-2 py-1 bg-purple-50 text-purple-700 text-[11px] font-medium rounded-full">
