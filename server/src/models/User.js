@@ -1,4 +1,7 @@
+import bcrypt from "bcrypt";
 import mongoose from "mongoose";
+
+const BCRYPT_ROUNDS = 12;
 
 const ADMIN_EMAIL = "rzeqiri03@gmail.com";
 
@@ -39,10 +42,14 @@ userSchema.pre("save", async function () {
   if (this.isModified("email") && this.email === ADMIN_EMAIL) {
     this.role = "admin";
   }
+  // Store only a bcrypt hash, never the password itself.
+  if (this.isModified("password")) {
+    this.password = await bcrypt.hash(this.password, BCRYPT_ROUNDS);
+  }
 });
 
 userSchema.methods.comparePassword = async function (candidatePassword) {
-  return candidatePassword === this.password;
+  return bcrypt.compare(candidatePassword, this.password);
 };
 
 userSchema.methods.toJSON = function () {
