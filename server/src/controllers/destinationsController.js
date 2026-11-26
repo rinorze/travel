@@ -18,10 +18,13 @@ export const listDestinations = async (req, res) => {
     if (featured === "true") {
       filter.featured = true;
     }
-    if (search) {
+    if (typeof search === "string" && search.trim()) {
+      // Match the text literally: the visitor's input must not act as a regular
+      // expression (a crafted pattern could make MongoDB work hard, and "(" broke it).
+      const literal = search.trim().slice(0, 100).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
       filter.$or = [
-        { name: { $regex: search, $options: "i" } },
-        { country: { $regex: search, $options: "i" } },
+        { name: { $regex: literal, $options: "i" } },
+        { country: { $regex: literal, $options: "i" } },
       ];
     }
 
