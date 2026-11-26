@@ -18,20 +18,20 @@ Built with React, Express and MongoDB. A portfolio project, not a real travel ag
 |---|---|
 | Client | React 19, React Router 7, Vite 7, Tailwind CSS 4, lucide icons |
 | API | Node.js, Express 5, Mongoose 9, express-validator, helmet |
-| Auth | JWT in an httpOnly cookie, bcrypt password hashes |
+| Auth | JWT sent as a Bearer token (kept in `localStorage`), bcrypt password hashes |
 | Tests | `node:test`, supertest, an in-memory MongoDB |
 | CI | GitHub Actions: API tests, plus client lint and build, on every pull request |
 
 ## Run it locally
 
-You need Node.js 22 (what CI uses; Vite 7 needs at least 20.19). MongoDB is optional: with `ALLOW_IN_MEMORY_DB=true` the API starts an in-memory database (its data is lost when it stops).
+You need Node.js 22 (what CI uses; Vite 7 needs at least 20.19) and MongoDB: a local server or a free Atlas cluster, set in `MONGODB_URI`.
 
 ```bash
 # API
 cd server
 cp .env.example .env        # then set JWT_SECRET to a long random string
 npm install
-npm run seed                # needs a real MONGODB_URI; skip with the in-memory DB
+npm run seed                # adds the 14 destinations
 npm run dev                 # http://localhost:5000
 
 # Client (second terminal)
@@ -42,6 +42,8 @@ npm run dev                 # http://localhost:5173
 ```
 
 To make an account an admin: `npm run make-admin -- you@example.com` in `server/`.
+
+Without MongoDB, `ALLOW_IN_MEMORY_DB=true` starts the API on an in-memory database. It is good for a quick look, but the catalog starts empty (the seed and make-admin scripts need a real `MONGODB_URI`) and everything is lost when the API stops.
 
 ## Tests
 
