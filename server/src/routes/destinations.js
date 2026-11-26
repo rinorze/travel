@@ -13,7 +13,8 @@ import { authenticate, requireAdmin } from "../middleware/auth.js";
 const router = Router();
 
 router.get("/", listDestinations);
-router.post("/seed", seedDestinations);
+// Seeding writes to the database, so only an admin may trigger it.
+router.post("/seed", authenticate, requireAdmin, seedDestinations);
 router.get("/:id", getDestination);
 
 // Admin-only routes
