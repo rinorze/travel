@@ -4,6 +4,8 @@ A full-stack trip booking app: browse a catalog of destinations, look at the det
 
 Built with React, Express and MongoDB. A portfolio project, not a real travel agency.
 
+**Live demo:** https://voyager-travel-ten.vercel.app (create an account to try booking). It runs on Vercel with a free MongoDB Atlas database in Frankfurt.
+
 ## Features
 
 - **Catalog:** 14 seeded destinations, searchable by name or country (the text is matched literally) and filterable by category (beach, mountain, city, cultural, adventure).
@@ -49,7 +51,7 @@ Without MongoDB, `ALLOW_IN_MEMORY_DB=true` starts the API on an in-memory databa
 
 One Vercel project serves both parts: the client is built as static files, and the Express API runs as a single serverless function (`api/index.js`, which uses `server/src/vercel.js`). The API lives under `/api` on the same domain, so the browser needs no cross-origin setup.
 
-1. Create a free MongoDB Atlas cluster and copy its connection string.
+1. Create a free MongoDB Atlas cluster, allow `0.0.0.0/0` in its IP access list (Vercel has no fixed IPs), and copy its connection string.
 2. In the Vercel project, set these environment variables:
    - `MONGODB_URI`: the Atlas connection string;
    - `JWT_SECRET`: a long random string;
