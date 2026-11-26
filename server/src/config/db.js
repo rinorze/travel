@@ -23,7 +23,8 @@ const connectDB = async () => {
       await mongoose.connect(mongoUri, {
         serverSelectionTimeoutMS: 5000,
       });
-      console.log("MongoDB connected:", mongoUri);
+      // Log the host only: the full URI contains the database password.
+      console.log("MongoDB connected:", mongoose.connection.host);
       return;
     } catch (error) {
       console.error("MongoDB connection failed:", error.message);

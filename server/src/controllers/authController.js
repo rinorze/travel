@@ -3,8 +3,6 @@ import jwt from "jsonwebtoken";
 import { validationResult } from "express-validator";
 import User from "../models/User.js";
 
-const ADMIN_EMAIL = "rzeqiri03@gmail.com";
-
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "7d" });
 };
@@ -69,11 +67,6 @@ export const login = async (req, res) => {
     const user = await User.findOne({ email });
     if (!user || !(await user.comparePassword(password))) {
       return res.status(401).json({ message: "Invalid email or password." });
-    }
-
-    if (user.email === ADMIN_EMAIL && user.role !== "admin") {
-      user.role = "admin";
-      await user.save();
     }
 
     const token = generateToken(user._id);
