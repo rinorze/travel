@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, MapPin, Search } from "lucide-react";
-import { listDestinations, seedDestinations } from "../lib/api.js";
+import { listDestinations } from "../lib/api.js";
 import DestinationCard from "../components/DestinationCard.jsx";
 
 export default function HomePage() {
@@ -11,14 +11,6 @@ export default function HomePage() {
   useEffect(() => {
     const load = async () => {
       try {
-        const seeded = sessionStorage.getItem("destinations_seeded");
-        if (!seeded) {
-          try {
-            await seedDestinations();
-          } catch {}
-          sessionStorage.setItem("destinations_seeded", "true");
-        }
-
         const data = await listDestinations({ featured: "true" });
         setFeatured(data.destinations.slice(0, 6));
       } catch (err) {

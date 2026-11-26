@@ -87,13 +87,6 @@ export const getDestination = async (id) => {
   return parseResponse(response);
 };
 
-export const seedDestinations = async () => {
-  const response = await apiFetch(`${API_URL}/destinations/seed`, {
-    method: "POST",
-  });
-  return parseResponse(response);
-};
-
 // Admin Destinations
 export const createDestinationAdmin = async (payload) => {
   const response = await apiFetch(`${API_URL}/destinations`, {
