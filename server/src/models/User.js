@@ -3,8 +3,6 @@ import mongoose from "mongoose";
 
 const BCRYPT_ROUNDS = 12;
 
-const ADMIN_EMAIL = "rzeqiri03@gmail.com";
-
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -38,10 +36,6 @@ const userSchema = new mongoose.Schema(
 );
 
 userSchema.pre("save", async function () {
-  // Auto-assign admin role for the admin email
-  if (this.isModified("email") && this.email === ADMIN_EMAIL) {
-    this.role = "admin";
-  }
   // Store only a bcrypt hash, never the password itself.
   if (this.isModified("password")) {
     this.password = await bcrypt.hash(this.password, BCRYPT_ROUNDS);
