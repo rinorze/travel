@@ -45,6 +45,18 @@ To make an account an admin: `npm run make-admin -- you@example.com` in `server/
 
 Without MongoDB, `ALLOW_IN_MEMORY_DB=true` starts the API on an in-memory database. It is good for a quick look, but the catalog starts empty (the seed and make-admin scripts need a real `MONGODB_URI`) and everything is lost when the API stops.
 
+## Deploy on Vercel
+
+One Vercel project serves both parts: the client is built as static files, and the Express API runs as a single serverless function (`api/index.js`, which uses `server/src/vercel.js`). The API lives under `/api` on the same domain, so the browser needs no cross-origin setup.
+
+1. Create a free MongoDB Atlas cluster and copy its connection string.
+2. In the Vercel project, set these environment variables:
+   - `MONGODB_URI`: the Atlas connection string;
+   - `JWT_SECRET`: a long random string;
+   - `CLIENT_URL`: the site's own URL, for example `https://your-app.vercel.app`;
+   - `VITE_API_URL`: `/api`.
+3. Deploy with `vercel deploy --prod`, then load the destinations once: `MONGODB_URI=... npm run seed --prefix server`.
+
 ## Tests
 
 ```bash

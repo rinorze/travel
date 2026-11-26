@@ -1,0 +1,6 @@
+{
+  "name": "travel-vercel",
+  "private": true,
+  "type": "module",
+  "description": "Root manifest for the Vercel deployment only. The apps live in client/ and server/."
+}
