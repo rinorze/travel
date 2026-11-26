@@ -150,7 +150,7 @@ const destinations = [
     description:
       "Walk along ancient stone walls above the shimmering Adriatic, explore marble streets lined with baroque buildings, and discover why this coastal gem is called the Pearl of the Adriatic.",
     image:
-      "https://images.unsplash.com/photo-1555990538-1a4e617a7929?w=800&q=80",
+      "https://images.unsplash.com/photo-1759068318353-03e6dbfa6597?w=800&q=80",
     price: 900,
     rating: 4.7,
     category: "city",

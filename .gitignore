@@ -9,3 +9,5 @@ client/.env
 dist/
 *.log
 nul
+.vercel
+.env*
