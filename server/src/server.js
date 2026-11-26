@@ -66,6 +66,11 @@ app.get("/", (req, res) => {
 });
 
 const start = async () => {
+  // Without a secret, jwt.sign() throws on every login and register (a 500).
+  // Fail at startup with a clear message instead.
+  if (!process.env.JWT_SECRET) {
+    throw new Error("JWT_SECRET is not set. Add it to server/.env.");
+  }
   await connectDB();
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
